@@ -289,6 +289,18 @@
     .img-sm    { height: 155px; }
     .img-xs    { height: 120px; }
 
+    /* ── two-col section ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 1.4rem;
+    }
+    .col-half { padding: 0 1.2rem; border-right: 1px solid var(--ink); }
+    .col-half:first-child { padding-left: 0; }
+    .col-half:last-child  { padding-right: 0; border-right: none; }
+
     /* ── real photos ── */
     .img-box img {
       width: 100%;
@@ -600,6 +612,16 @@
 
       /* Ultimora: don't exceed viewport width */
       .ultimora { right: .5rem; bottom: .5rem; max-width: calc(100vw - 1rem); width: 280px; }
+
+      .two-col { grid-template-columns: 1fr; }
+      .col-half {
+        border-right: none;
+        padding: 0;
+        border-bottom: 1px solid var(--ink);
+        padding-bottom: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+      .col-half:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
     }
   </style>
 </head>
@@ -636,13 +658,14 @@
     <div class="ticker-label">🔴 ULTIMORA</div>
     <div class="ticker-overflow">
       <div class="ticker-track" id="ticker">
-        <span class="ticker-item">BREAKING: Davide Turini acquista moto — non ha la patente, non è assicurata, non lo dice a nessuno</span>
-        <span class="ticker-item">ESCLUSIVA: Turo ha passato 47 ore questa settimana ad assemblare robottini di plastica giapponesi. L'analista finanziario piange.</span>
+        <span class="ticker-item">BREAKING: Turo aveva una fidanzata cinese. Si chiama Eva. Era segreta. Non lo era più da ieri.</span>
+        <span class="ticker-item">ESCLUSIVA: Turo lascia lavoro da informatico ben pagato per fare polenta a 2.300 metri. Inizia a giugno.</span>
+        <span class="ticker-item">MOTO: Il veicolo è ancora in garage. Non assicurato. Non guidabile. Perfettamente integro. Purtroppo.</span>
         <span class="ticker-item">FONTE ANONIMA: "Turo dice che Debora è solo un'amica". La fonte ride. Non riesce a smettere.</span>
-        <span class="ticker-item">DATO SCIENTIFICO CONFERMATO: La madre di Turo è bellissima — questo non è dibattito, è fisiologia</span>
-        <span class="ticker-item">ALLERTA TCG GUNDAM: terzo booster box della settimana acquistato. Il conto corrente di Turo non era disponibile per commenti</span>
-        <span class="ticker-item">OGGI: Turo compie 28 anni. Mancano due anni alla crisi dei 30. La crisi è iniziata nel 2021.</span>
-        <span class="ticker-item">AGGIORNAMENTO MOTO: Il veicolo è ancora in garage. Perfettamente integro. Praticamente come nuovo. Purtroppo.</span>
+        <span class="ticker-item">DATO SCIENTIFICO: La madre di Turo è bellissima — non è dibattito, è fisiologia</span>
+        <span class="ticker-item">GUNDAM ALERT: terzo booster box della settimana. Il conto corrente di Turo non era disponibile per commenti.</span>
+        <span class="ticker-item">OGGI: Turo compie 28 anni. Due anni alla crisi dei 30. La crisi è iniziata nel 2021.</span>
+        <span class="ticker-item">AGGIORNAMENTO RIFUGIO: Eva è stata informata del trasferimento in montagna. La sua reazione non è ancora pervenuta in Redazione.</span>
       </div>
     </div>
   </div>
@@ -677,22 +700,14 @@
         <p class="caption">La motocicletta acquistata da Davide Turini, 28 anni, immortalata nel suo habitat naturale: il garage, dove rimarrà a tempo indeterminato per ragioni legali, assicurative e di buon senso comune.</p>
 
         <div class="body-text">
-          <p>Ci sono misteri che avvolgono la nostra epoca. La composizione chimica dell'universo. Il motivo per cui continuiamo ad aprire il frigo sperando che sia comparso del cibo. E adesso: il perché Davide «Turo» Turini abbia acquistato una motocicletta senza patente, senza assicurazione, e soprattutto — dettaglio cruciale — senza dirlo assolutamente a nessuno.</p>
+          <p>Esistono misteri che avvolgono la nostra epoca. Il perché Davide «Turo» Turini abbia acquistato una motocicletta senza patente, senza assicurazione, e soprattutto senza dirlo a nessuno è tra i più profondi. La notizia, emersa attraverso canali non meglio precisati, ha lasciato sgomenta la comunità. «Turo con una moto. Che non può guidarla. E non ci aveva detto niente,» racconta un testimone anonimo.</p>
 
-          <p>La notizia, emersa attraverso canali non meglio precisati (qualcuno ha parlato, Turo), ha lasciato sgomenta la comunità. «Non riuscivo a credere ai miei occhi,» racconta un testimone che preferisce restare anonimo. «Turo con una moto. Turo. Che non può guidarla. E non ci aveva detto niente. Per settimane.»</p>
-
-          <p>Interrogato sull'accaduto, il soggetto avrebbe risposto con una serie di spallucce progressive, culminate in un vago «sì vabbè» che gli esperti di linguistica classificano come «la risposta di chi sa di aver torto ma non vuole ammetterlo davanti a testimoni».</p>
+          <p>La moto versa in perfette condizioni meccaniche — quasi come se non fosse mai stata usata. Perché, di fatto, non è mai stata usata. «È un investimento,» ha dichiarato il proprietario. La Polizia Municipale non è a conoscenza del caso. Il soggetto confida che le cose rimangano così.</p>
         </div>
 
         <div class="pull-quote">
           <blockquote>«Ho una moto. Non la posso guidare. Non ve lo dico. Tutto regolare.»</blockquote>
           <cite>— Davide Turini, parafrasato dalla Redazione sulla base dei comportamenti osservati</cite>
-        </div>
-
-        <div class="body-text">
-          <p>La moto, secondo fonti vicine al garage, versa in perfette condizioni meccaniche — quasi come se non fosse mai stata usata. Perché, di fatto, non è mai stata usata. «È un investimento,» avrebbe dichiarato il proprietario. Un investimento in cosa, precisamente, rimane oggetto di ricerca accademica finanziata da nessuno.</p>
-
-          <p>La Polizia Municipale non è a conoscenza del caso. Il soggetto confida che le cose rimangano così.</p>
         </div>
       </div>
 
@@ -713,26 +728,24 @@
           </div>
         </div>
 
-        <span class="section-label">Psicologia · Profilo Comportamentale</span>
+        <span class="section-label">Patrimonio Culturale</span>
 
-        <h3 class="hl hl-md">«Fa il Figo ma Non lo È»: studio clinico di un caso irrisolto</h3>
+        <h3 class="hl hl-md">La Collezione: un Lascito per i Posteri</h3>
 
-        <div class="byline">Di Dott. Scienze dell'Imbarazzo, Università di Bologna</div>
+        <div class="byline">Di Critico d'Arte Rassegnato</div>
 
         <div class="img-box img-sm">
           <img src="img/gunpla.webp" alt="La collezione Gunpla di Turo">
         </div>
-        <p class="caption">Ricostruzione del soggetto mentre tenta di sembrare interessante a una festa. Il tentativo è documentato. Il risultato, no.</p>
+        <p class="caption">Una porzione della collezione Gunpla. Valutata dal proprietario «un investimento». Valutata dalla Redazione «un problema».</p>
 
         <div class="body-text">
-          <p>La letteratura psicologica identifica nel soggetto un pattern ricorrente e ben documentato: la convinzione sincera di essere più interessante, più cool e più misterioso di quanto i dati empirici suggeriscano.</p>
-
-          <p>«Turo crede davvero di essere figo,» spiega la fonte, che preferisce restare anonima. «Il problema è che poi tira fuori le sue carte del TCG Gundam e il castello crolla irreversibilmente.»</p>
+          <p>Fonti interne stimano il numero di Gunpla in camera di Turo tra i 30 e «non voglio contarli». Ogni modello assemblato a mano, con dedizione monacale, in orari in cui una persona normale dormirebbe. Affiancato da una raccolta di carte del TCG Gundam che nessuno, incluso Turo, sa ancora come giocare.</p>
         </div>
 
         <div class="pull-quote">
-          <blockquote>«28 anni, schiavo di ufficio, appassionato di robottini. Il sogno americano.»</blockquote>
-          <cite>— Dante Alighieri, se avesse vissuto oggi e avesse conosciuto Turo</cite>
+          <blockquote>«È arte. È cultura. È un investimento.»</blockquote>
+          <cite>— Turo, descrivendo i suoi Gunpla. Nessuno era d'accordo.</cite>
         </div>
       </div>
     </div>
@@ -753,11 +766,9 @@
         <p class="caption">Vista parziale della collezione. Il fotografo incaricato ha chiesto supporto psicologico dopo il sopralluogo.</p>
 
         <div class="body-text">
-          <p>Il DSM-V non prevede ancora una categoria specifica per «adulto in giacca e cravatta che passa i weekend ad assemblare robot di plastica in scala 1/144», ma gli psichiatri consultati dalla Redazione sono ottimisti che il caso di Turo possa finalmente aprire la strada.</p>
+          <p>Il DSM-V non prevede ancora una categoria per «adulto che passa i weekend ad assemblare robot in scala 1/144», ma gli psichiatri consultati sono ottimisti che il caso di Turo possa aprire la strada. La dipendenza — <em>Gunpla Disorder Cronico con Complicanza TCG</em> — si manifesta con acquisto compulsivo e totale incapacità di accorgersi che nessuno vuole sentirlo.</p>
 
-          <p>La dipendenza — classificabile come <em>Gunpla Disorder Cronico con Complicanza TCG</em> — si manifesta con sintomi precisi: acquisto compulsivo di kit, conversazione sistematicamente deviata verso il Gundam TCG, e totale incapacità di accorgersi che nessuno vuole sentirlo.</p>
-
-          <p>«Ho provato a parlargli,» confessa una fonte. «Mi ha spiegato la differenza tra un MG e un PG per 45 minuti. Non so ancora cosa significhino.»</p>
+          <p>«Mi ha spiegato la differenza tra un MG e un PG per 45 minuti,» confessa una fonte. «Non so ancora cosa significhino.»</p>
         </div>
       </div>
 
@@ -774,11 +785,9 @@
         <p class="caption">Rappresentazione artistica dei sentimenti di Turo. Il divieto di accesso in fondo alla strada rappresenta la fidanzata del suo migliore amico.</p>
 
         <div class="body-text">
-          <p>C'è una battuta che gira nella compagnia di Turo. La battuta risponde al nome di Debora. La battuta è diventata leggenda. La leggenda è diventata un capitolo fisso in ogni riunione informale del gruppo. E adesso è qui, in questo giornale, consegnata alla storia.</p>
+          <p>C'è una battuta che gira nella compagnia di Turo. La battuta risponde al nome di Debora. È diventata leggenda, capitolo fisso di ogni riunione informale, e adesso è qui, consegnata alla storia dalla Gazzetta del Turo.</p>
 
-          <p>Quando interrogato sull'argomento, Turo attiva quello che gli esperti definiscono il <em>«protocollo della risata imbarazzata»</em>: un sorriso nervoso, un cambio argomento repentino, e — nei casi più gravi — un commento casuale su un Gunpla acquistato di recente.</p>
-
-          <p>La Redazione augura a Turo di trovare un giorno la sua Debora. Una disponibile, questa volta.</p>
+          <p>Quando interrogato, Turo attiva il <em>«protocollo della risata imbarazzata»</em>: sorriso nervoso, cambio argomento repentino, commento casuale su un Gunpla. La Redazione augura a Turo di trovare la sua Debora. Una disponibile, questa volta.</p>
         </div>
       </div>
 
@@ -796,11 +805,63 @@
         <p class="caption">Flusso di cassa mensile del soggetto. Freccia sinistra: stipendio. Freccia destra: Bandai Namco. Il delta è statisticamente irrilevante.</p>
 
         <div class="body-text">
-          <p>Ogni mattina, Davide Turini si sveglia, si veste, va in ufficio, lavora otto ore, torna a casa. Una routine normale, se non fosse che l'intero processo è — da un punto di vista strettamente economico — una macchina per generare liquidità da destinare all'acquisto di kit Gunpla e booster del TCG.</p>
+          <p>Ogni mattina Turo si sveglia, va in ufficio, lavora otto ore. Una routine normale, se non fosse che l'intero processo è — economicamente — una macchina per generare fondi da destinare a Bandai Namco. Circa il 40% dello stipendio netto finisce in Gunpla e TCG. Il restante va in spese ordinarie, incluso il carburante per la moto che non può usare.</p>
 
-          <p>Un'analisi del bilancio stimata dalla nostra Redazione indica che circa il 40% dello stipendio netto finisce in modellismo e carte collezionabili. Il restante 60% è destinato a spese ordinarie, incluso il carburante per la moto che non può usare.</p>
+          <p>«È un investimento,» ha dichiarato Turo. Sì. Lo sappiamo. Ha già detto questa cosa. Più volte.</p>
+        </div>
+      </div>
+    </div>
 
-          <p>«È un investimento,» ha dichiarato Turo. Sì. Lo sappiamo già. Ha già detto questa cosa.</p>
+    <!-- ════ GRID 3: Eva + Rifugio ════ -->
+    <div class="two-col" id="two-col">
+
+      <!-- Eva -->
+      <div class="col-half" id="col-eva">
+        <span class="section-label">Cronaca Rosa · Esclusiva Assoluta</span>
+        <h3 class="hl hl-lg">Eva: la Fidanzata Cinese che Nessuno Sapeva Esistesse</h3>
+        <div class="deck">Turo aveva una relazione. Ha tenuto tutto segreto per mesi. Poi ha confessato spontaneamente. La compagnia elabora il lutto.</div>
+        <div class="byline">Di Chi Non Si Aspettava Proprio Questa</div>
+
+        <div class="img-box img-xs">
+          <span class="big-emoji">💑🔒</span>
+          <span class="img-label">Eva e Turo (ricostruzione artistica)</span>
+        </div>
+        <p class="caption">Rappresentazione artistica della coppia. Eva, descritta da tutte le fonti come «molto cute», non era a conoscenza di essere un segreto di Stato.</p>
+
+        <div class="body-text">
+          <p>Per mesi, Davide «Turo» Turini ha condotto una doppia vita. Di giorno: schiavo d'ufficio appassionato di Gunpla. Di nascosto: fidanzato. Con una ragazza. Di nome Eva. Cinese. Molto cute. Non ne aveva parlato con nessuno. Nessuno. Nemmeno un accenno. Un silenzio assoluto, disciplinato, quasi professionale.</p>
+
+          <p>La confessione è arrivata spontaneamente, e ha lasciato la compagnia in uno stato di elaborazione collettiva del lutto. Non perché Eva non fosse benvenuta — anzi. Ma perché Turo, l'uomo che non riesce a non parlare di Gunpla per più di 20 minuti, aveva tenuto una fidanzata segreta per mesi senza che nessuno se ne accorgesse. Gli esperti definiscono questo «un capolavoro di mimetismo involontario».</p>
+        </div>
+
+        <div class="pull-quote">
+          <blockquote>«Ah sì, ho una ragazza. Si chiama Eva. È cinese. È carina.»</blockquote>
+          <cite>— Turo, con la stessa casualità con cui si ordina una pizza</cite>
+        </div>
+      </div>
+
+      <!-- Rifugio -->
+      <div class="col-half" id="col-rifugio">
+        <span class="section-label">Economia · Scelte di Vita Discutibili</span>
+        <h3 class="hl hl-lg">Addio Stipendio: Turo Lascia l'Informatica per Fare il Rifugista</h3>
+        <div class="deck">Da giugno, tre mesi al Rifugio Baitone (probabilmente). Quota 2.309 m. Senza Wi-Fi. Con i Gunpla.</div>
+        <div class="byline">Di Analista Finanziario in Lutto</div>
+
+        <div class="img-box img-xs">
+          <span class="big-emoji">⛰️🍺</span>
+          <span class="img-label">Il futuro luogo di lavoro di Turo</span>
+        </div>
+        <p class="caption">Il Rifugio Baitone, probabilmente. Raggiungibile a piedi da Vezza d'Oglio. Non in moto, per ragioni già ampiamente documentate in prima pagina.</p>
+
+        <div class="body-text">
+          <p>Davide Turini ha lasciato il suo lavoro da informatico — ben pagato, al chiuso, con il Wi-Fi — per trascorrere tre mesi a servire polenta e tè caldo a 2.300 metri sul livello del mare nel bresciano. La destinazione, indicata come «vicino a Vezza d'Oglio», è con ogni probabilità il Rifugio Baitone. L'inizio è previsto a giugno. Eva è stata informata della cosa, si spera.</p>
+
+          <p>Le motivazioni dichiarate restano vaghe. «Volevo fare qualcosa di diverso,» avrebbe detto il soggetto. La comunità ha accolto la notizia con una mescolanza di ammirazione e costernazione. I Gunpla, presumibilmente, resteranno in garage. Con la moto.</p>
+        </div>
+
+        <div class="pull-quote">
+          <blockquote>«Vado a fare il rifugista.» «Ma hai un lavoro da informatico.» «Sì vabbè.»</blockquote>
+          <cite>— Ricostruzione fedele del dialogo con la compagnia</cite>
         </div>
       </div>
     </div>
@@ -970,6 +1031,14 @@
     },
   });
 
+  /* ─ EVA + RIFUGIO SECTION ─ */
+  gsap.from('#col-eva, #col-rifugio', {
+    scrollTrigger: { trigger: '#two-col', start: 'top 84%' },
+    y: 40, opacity: 0,
+    duration: .65, ease: 'power2.out',
+    stagger: .15,
+  });
+
   /* ─ BIRTHDAY SECTION ─ */
   gsap.from('.birthday-text', {
     scrollTrigger: { trigger: '#birthday-grid', start: 'top 82%' },
@@ -997,13 +1066,13 @@
 
   /* ─ ULTIMORA POPUP ─ */
   const ultimoras = [
-    'Turo ha comprato un altro Gunpla stamattina. Era già il terzo della settimana. Il conto piange.',
-    'CONFERMATO: La moto è ancora in garage. Esattamente dove non dovrebbe essere.',
-    'Fonti interne alla compagnia: "Turo ha detto che Debora è solo un\'amica". Nessuno ci crede.',
-    'AGGIORNAMENTO: Turo compie 28 anni. Due anni alla crisi dei 30. La crisi è già avanzata.',
+    'CONFERMATO: Turo aveva una fidanzata cinese. Si chiama Eva. Era carina. Era un segreto. Non più.',
+    'AGGIORNAMENTO RIFUGIO: Turo inizia a giugno. Tre mesi. A 2.300 metri. Senza Wi-Fi. Con i Gunpla, probabilmente.',
+    'Fonti interne: "Turo ha detto che Debora è solo un\'amica". Nessuno ci crede. Meno ora che esiste Eva.',
+    'BREAKING: Turo lascia l\'informatica per fare polenta in quota. L\'analista finanziario è ricoverato.',
+    'La moto è ancora in garage. Non assicurata. Non guidabile. Eva non sa della moto. Ancora.',
     'ESCLUSIVA: La madre di Turo è bellissima. La notizia è confermata. Non ci sono aggiornamenti.',
-    'Turo ha spiegato le regole del TCG Gundam per 20 minuti. Nessuno ha capito niente. Lui ha continuato.',
-    'BREAKING: Turo ha detto "non mi frega niente dei Gundam" mentre era circondato da 40 Gunpla.',
+    'Turo ha spiegato le regole del TCG Gundam per 20 minuti. Nessuno ha capito niente. Eva era presente.',
   ];
 
   let ultimoraIdx = 0;
