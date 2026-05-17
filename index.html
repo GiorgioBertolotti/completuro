@@ -24,7 +24,7 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
 
     body {
       background: #1E1610;
@@ -34,6 +34,7 @@
       display: flex;
       justify-content: center;
       padding: 2rem 1rem 4rem;
+      overflow-x: hidden;
     }
 
     /* ── grain overlay ── */
@@ -510,24 +511,86 @@
       body { padding: 0; }
       .content { padding: 1rem; }
 
+      /* Masthead: stack meta vertically, tighten spacing */
+      .masthead { padding: 1rem 1rem .7rem; }
+      .masthead-meta {
+        flex-direction: column;
+        align-items: center;
+        gap: .15rem;
+        text-align: center;
+      }
+      .paper-name-sub { letter-spacing: .2em; }
+      .masthead-tagline { letter-spacing: .08em; font-size: .55rem; }
+
+      /* Headlines scale down a bit more aggressively */
+      .hl-xl { font-size: clamp(1.5rem, 6.5vw, 2rem); }
+      .hl-lg  { font-size: clamp(1.15rem, 5vw, 1.5rem); }
+
+      /* Drop caps look terrible in narrow columns — disable */
+      .body-text p:first-child::first-letter {
+        font-size: inherit;
+        float: none;
+        line-height: inherit;
+        padding: 0;
+        font-weight: inherit;
+      }
+
+      /* Justified text with narrow columns creates ugly gaps */
+      .body-text { text-align: left; }
+
+      /* Main 2-col → single column */
       .main-grid { grid-template-columns: 1fr; }
-      .col-main  { border-right: none; padding-right: 0; border-bottom: 1px solid var(--ink); padding-bottom: 1.2rem; margin-bottom: 1.2rem; }
-      .col-side  { padding-left: 0; }
+      .col-main  {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid var(--ink);
+        padding-bottom: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+      .col-side { padding-left: 0; }
 
+      /* Three-col → single column, last child needs no bottom border */
       .three-col { grid-template-columns: 1fr; }
-      .three-col .col { border-right: none; padding: 0; border-bottom: 1px solid var(--ink); padding-bottom: 1.2rem; margin-bottom: 1.2rem; }
+      .three-col .col {
+        border-right: none;
+        padding: 0;
+        border-bottom: 1px solid var(--ink);
+        padding-bottom: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+      .three-col .col:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
 
-      .stats-bar { grid-template-columns: repeat(3, 1fr); margin: 0 -1rem 1.4rem; padding: 1.2rem 1rem; }
-      .stat { margin-bottom: .8rem; }
+      /* Stats: 2-col grid (5 items → 2+2+1), fix border logic */
+      .stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 0 -1rem 1.4rem;
+        padding: 1.2rem 1rem;
+      }
+      .stat { border-right: 1px solid rgba(255,255,255,.15); padding: .4rem .5rem; margin-bottom: .7rem; }
+      .stat:nth-child(2n) { border-right: none; }
+      .stat:last-child    { border-right: none; grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.1); padding-top: .7rem; margin-bottom: 0; }
 
+      /* Birthday: stack stamp below text */
       .birthday-grid { grid-template-columns: 1fr; }
-      .birthday-text { border-right: none; padding-right: 0; border-bottom: 1px solid var(--ink); padding-bottom: 1.2rem; margin-bottom: 1.2rem; }
-      .birthday-stamp-col { padding-left: 0; min-width: auto; }
+      .birthday-text {
+        border-right: none;
+        padding-right: 0;
+        border-bottom: 1px solid var(--ink);
+        padding-bottom: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+      .birthday-stamp-col { padding-left: 0; min-width: auto; padding-bottom: 1rem; }
 
-      .footer { flex-direction: column; gap: .5rem; text-align: center; }
+      /* Footer */
+      .footer { flex-direction: column; gap: .5rem; text-align: center; padding: 1rem; }
       .footer-note { text-align: center; }
 
-      .ultimora { right: .5rem; bottom: .5rem; max-width: 250px; }
+      /* Ultimora: don't exceed viewport width */
+      .ultimora { right: .5rem; bottom: .5rem; max-width: calc(100vw - 1rem); width: 280px; }
     }
   </style>
 </head>
