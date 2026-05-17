@@ -289,6 +289,15 @@
     .img-sm    { height: 155px; }
     .img-xs    { height: 120px; }
 
+    /* ── real photos ── */
+    .img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: sepia(18%) contrast(1.06) brightness(.97);
+    }
+
     .caption {
       font-family: 'Libre Baskerville', serif;
       font-style: italic;
@@ -663,8 +672,7 @@
         </div>
 
         <div class="img-box img-main">
-          <span class="big-emoji">🏍️🔒</span>
-          <span class="img-label">La moto di Turo (in cattività permanente)</span>
+          <img src="img/moto.jpg" alt="La moto di Turo in cattività permanente">
         </div>
         <p class="caption">La motocicletta acquistata da Davide Turini, 28 anni, immortalata nel suo habitat naturale: il garage, dove rimarrà a tempo indeterminato per ragioni legali, assicurative e di buon senso comune.</p>
 
@@ -712,8 +720,7 @@
         <div class="byline">Di Dott. Scienze dell'Imbarazzo, Università di Bologna</div>
 
         <div class="img-box img-sm">
-          <span class="big-emoji">😎🚫</span>
-          <span class="img-label">Turo (simulazione artistica)</span>
+          <img src="img/gunpla.webp" alt="La collezione Gunpla di Turo">
         </div>
         <p class="caption">Ricostruzione del soggetto mentre tenta di sembrare interessante a una festa. Il tentativo è documentato. Il risultato, no.</p>
 
@@ -741,8 +748,7 @@
         <div class="byline">Di un Amico Preoccupato</div>
 
         <div class="img-box img-xs">
-          <span class="big-emoji">🤖📦💸</span>
-          <span class="img-label">La stanza di Turo (parziale)</span>
+          <img src="img/gundam_tcg.webp" alt="Il TCG Gundam di Turo">
         </div>
         <p class="caption">Vista parziale della collezione. Il fotografo incaricato ha chiesto supporto psicologico dopo il sopralluogo.</p>
 
@@ -763,8 +769,7 @@
         <div class="byline">Di Chi Sa Tutto e Non Dimentica</div>
 
         <div class="img-box img-xs">
-          <span class="big-emoji">💘🚧</span>
-          <span class="img-label">Il cuore di Turo (bloccato da semaforo rosso)</span>
+          <img src="img/debora.jpg" alt="Debora">
         </div>
         <p class="caption">Rappresentazione artistica dei sentimenti di Turo. Il divieto di accesso in fondo alla strada rappresenta la fidanzata del suo migliore amico.</p>
 
