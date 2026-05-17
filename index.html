@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Gazzetta del Turo — Edizione Speciale 28° Compleanno</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700;1,900&family=Oswald:wght@300;400;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --paper:  #F0E6C8;
+      --ink:    #140E04;
+      --red:    #C41E3A;
+      --gray:   #5A4F3C;
+      --light:  #D8CEB0;
+      --cream:  #FAF4E4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #1E1610;
+      font-family: 'Libre Baskerville', Georgia, serif;
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* ── grain overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9000;
+      opacity: .35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+    }
+
+    /* ══════════════════════════════════════
+       NEWSPAPER WRAPPER
+    ══════════════════════════════════════ */
+    .newspaper {
+      background: var(--paper);
+      max-width: 1080px;
+      width: 100%;
+      box-shadow:
+        0 0 0 1px var(--ink),
+        6px 6px 0 0 rgba(0,0,0,.5),
+        12px 12px 40px rgba(0,0,0,.6);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ══════════════════════════════════════
+       MASTHEAD
+    ══════════════════════════════════════ */
+    .masthead {
+      padding: 1.4rem 2rem .8rem;
+      border-bottom: 4px double var(--ink);
+      text-align: center;
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .masthead-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Oswald', sans-serif;
+      font-size: .6rem;
+      font-weight: 300;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: .6rem;
+    }
+
+    .masthead-rule { border: none; border-top: 1px solid var(--ink); margin: .4rem 0; }
+
+    .paper-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: clamp(2.6rem, 7.5vw, 5.5rem);
+      letter-spacing: -.02em;
+      line-height: .95;
+      color: var(--ink);
+    }
+
+    .paper-name-sub {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      font-size: clamp(.6rem, 1.8vw, .85rem);
+      letter-spacing: .5em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin: .4rem 0;
+    }
+
+    .masthead-tagline {
+      font-family: 'Oswald', sans-serif;
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: .3rem;
+    }
+
+    /* ══════════════════════════════════════
+       TICKER
+    ══════════════════════════════════════ */
+    .ticker-wrapper {
+      display: flex;
+      align-items: center;
+      background: var(--red);
+      overflow: hidden;
+    }
+
+    .ticker-label {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: .65rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .5rem 1rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ticker-overflow {
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      padding: .5rem 0;
+    }
+
+    .ticker-item {
+      color: var(--paper);
+      font-family: 'Libre Baskerville', serif;
+      font-size: .72rem;
+      white-space: nowrap;
+      padding: 0 2rem;
+      flex-shrink: 0;
+    }
+
+    .ticker-item::after {
+      content: ' ✦ ';
+      opacity: .7;
+      margin-left: 2rem;
+    }
+
+    /* ══════════════════════════════════════
+       CONTENT SHELL
+    ══════════════════════════════════════ */
+    .content { padding: 1.5rem 2rem; }
+
+    /* ── section label ── */
+    .section-label {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: .55rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--red);
+      border-top: 2px solid var(--red);
+      padding-top: .35rem;
+      margin-bottom: .7rem;
+    }
+
+    /* ── headlines ── */
+    .hl { font-family: 'Playfair Display', Georgia, serif; font-weight: 900; line-height: 1.05; }
+    .hl-xl { font-size: clamp(1.8rem, 3.8vw, 3rem); font-style: italic; }
+    .hl-lg { font-size: clamp(1.3rem, 2.8vw, 2rem); font-style: italic; }
+    .hl-md { font-size: 1.15rem; font-style: italic; }
+
+    .deck {
+      font-family: 'Oswald', sans-serif;
+      font-size: .85rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--gray);
+      margin-bottom: .7rem;
+    }
+
+    .byline {
+      font-family: 'Oswald', sans-serif;
+      font-size: .57rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      border-top: 1px solid var(--light);
+      border-bottom: 1px solid var(--light);
+      padding: .28rem 0;
+      margin-bottom: .8rem;
+    }
+
+    /* ── body text ── */
+    .body-text { font-size: .82rem; line-height: 1.72; text-align: justify; hyphens: auto; }
+    .body-text p { margin-bottom: .65rem; }
+    .body-text p:first-child::first-letter {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      float: left;
+      line-height: .85;
+      padding: .05rem .45rem 0 0;
+    }
+
+    /* ── pull quote ── */
+    .pull-quote {
+      border-top: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      margin: 1rem 0;
+      padding: .75rem 0;
+      text-align: center;
+    }
+    .pull-quote blockquote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .pull-quote cite {
+      font-family: 'Oswald', sans-serif;
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gray);
+      display: block;
+      margin-top: .35rem;
+    }
+
+    /* ── image placeholders ── */
+    .img-box {
+      background: var(--light);
+      border: 1px solid var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+      position: relative;
+      overflow: hidden;
+      margin: .8rem 0 .3rem;
+    }
+    .img-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 12px,
+        rgba(0,0,0,.04) 12px, rgba(0,0,0,.04) 24px
+      );
+    }
+    .img-box .big-emoji { font-size: 2.6rem; position: relative; z-index: 1; }
+    .img-box .img-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: .55rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      position: relative;
+      z-index: 1;
+    }
+    .img-main  { height: 195px; }
+    .img-sm    { height: 155px; }
+    .img-xs    { height: 120px; }
+
+    .caption {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: .67rem;
+      color: var(--gray);
+      border-left: 2px solid var(--light);
+      padding-left: .5rem;
+      margin-bottom: .9rem;
+      line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════════
+       LAYOUT GRIDS
+    ══════════════════════════════════════ */
+
+    /* main 2-col: big + sidebar */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 0;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 1.4rem;
+    }
+    .col-main  { padding-right: 1.4rem; border-right: 1px solid var(--ink); }
+    .col-side  { padding-left: 1.4rem; }
+
+    /* 3-col articles */
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 1.4rem;
+    }
+    .three-col .col {
+      padding: 0 1.2rem;
+      border-right: 1px solid var(--ink);
+    }
+    .three-col .col:first-child { padding-left: 0; }
+    .three-col .col:last-child  { padding-right: 0; border-right: none; }
+
+    /* ══════════════════════════════════════
+       STATS BAR
+    ══════════════════════════════════════ */
+    .stats-bar {
+      background: var(--ink);
+      color: var(--paper);
+      margin: 0 -2rem 1.4rem;
+      padding: 1.6rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      text-align: center;
+    }
+    .stat { border-right: 1px solid rgba(255,255,255,.15); padding: 0 .5rem; }
+    .stat:last-child { border-right: none; }
+    .stat-n {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.3rem;
+      font-weight: 900;
+      font-style: italic;
+      display: block;
+      line-height: 1;
+      margin-bottom: .25rem;
+    }
+    .stat-l {
+      font-family: 'Oswald', sans-serif;
+      font-size: .5rem;
+      font-weight: 400;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(240,230,200,.65);
+      line-height: 1.4;
+    }
+
+    /* ══════════════════════════════════════
+       MAMMA BOX
+    ══════════════════════════════════════ */
+    .mamma-box {
+      background: var(--red);
+      color: var(--paper);
+      padding: 1.4rem 1.2rem;
+      margin-bottom: 1.4rem;
+      text-align: center;
+    }
+    .mamma-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+    .mamma-text {
+      font-size: .76rem;
+      line-height: 1.65;
+      opacity: .92;
+    }
+
+    /* ══════════════════════════════════════
+       BIRTHDAY SECTION
+    ══════════════════════════════════════ */
+    .birthday-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 1.4rem;
+      align-items: start;
+    }
+    .birthday-text { padding-right: 1.4rem; border-right: 1px solid var(--ink); }
+    .birthday-stamp-col {
+      padding-left: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+      gap: 1rem;
+    }
+
+    /* ── stamp ── */
+    .stamp {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 5px solid var(--red);
+      color: var(--red);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: .65rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      padding: .9rem 1.2rem;
+      transform: rotate(-14deg);
+      position: relative;
+      box-shadow: inset 0 0 0 2px var(--red);
+      opacity: 0;
+    }
+    .stamp-n {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1;
+      display: block;
+    }
+
+    /* ══════════════════════════════════════
+       ORNAMENT / DIVIDERS
+    ══════════════════════════════════════ */
+    .ornament {
+      text-align: center;
+      color: var(--gray);
+      letter-spacing: .6rem;
+      margin: .5rem 0;
+      font-size: .75rem;
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .footer {
+      border-top: 4px double var(--ink);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--cream);
+    }
+    .footer-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-style: italic;
+    }
+    .footer-note {
+      font-family: 'Oswald', sans-serif;
+      font-size: .55rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gray);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════
+       ULTIMORA POPUP
+    ══════════════════════════════════════ */
+    .ultimora {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--red);
+      color: var(--paper);
+      max-width: 300px;
+      box-shadow: 4px 4px 0 var(--ink), 8px 8px 20px rgba(0,0,0,.4);
+      z-index: 8000;
+      transform: translateX(120%);
+    }
+    .ultimora-head {
+      background: var(--ink);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: .6rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      padding: .4rem .8rem;
+    }
+    .ultimora-body {
+      font-family: 'Libre Baskerville', serif;
+      font-size: .75rem;
+      line-height: 1.55;
+      padding: .7rem .8rem;
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 720px) {
+      body { padding: 0; }
+      .content { padding: 1rem; }
+
+      .main-grid { grid-template-columns: 1fr; }
+      .col-main  { border-right: none; padding-right: 0; border-bottom: 1px solid var(--ink); padding-bottom: 1.2rem; margin-bottom: 1.2rem; }
+      .col-side  { padding-left: 0; }
+
+      .three-col { grid-template-columns: 1fr; }
+      .three-col .col { border-right: none; padding: 0; border-bottom: 1px solid var(--ink); padding-bottom: 1.2rem; margin-bottom: 1.2rem; }
+
+      .stats-bar { grid-template-columns: repeat(3, 1fr); margin: 0 -1rem 1.4rem; padding: 1.2rem 1rem; }
+      .stat { margin-bottom: .8rem; }
+
+      .birthday-grid { grid-template-columns: 1fr; }
+      .birthday-text { border-right: none; padding-right: 0; border-bottom: 1px solid var(--ink); padding-bottom: 1.2rem; margin-bottom: 1.2rem; }
+      .birthday-stamp-col { padding-left: 0; min-width: auto; }
+
+      .footer { flex-direction: column; gap: .5rem; text-align: center; }
+      .footer-note { text-align: center; }
+
+      .ultimora { right: .5rem; bottom: .5rem; max-width: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════╗
+     ║        IL GIORNALE                  ║
+     ╚══════════════════════════════════════╝ -->
+<article class="newspaper" id="newspaper">
+
+  <!-- ── MASTHEAD ── -->
+  <header class="masthead" id="masthead">
+    <div class="masthead-meta">
+      <span>Fondata nel 1998 · Da un Errore di Stampa</span>
+      <span>✦ EDIZIONE SPECIALE SCANDALO ✦</span>
+      <span>17 Maggio 2026 · € 0,28</span>
+    </div>
+    <hr class="masthead-rule">
+
+    <div class="paper-name">
+      La Gazzetta
+      <span class="paper-name-sub">del</span>
+      del Turo
+    </div>
+
+    <hr class="masthead-rule">
+    <p class="masthead-tagline">
+      Il giornale che nessuno leggeva &nbsp;·&nbsp; EDIZIONE SPECIALE 28° COMPLEANNO DI DAVIDE «TURO» TURINI
+    </p>
+  </header>
+
+  <!-- ── TICKER ── -->
+  <div class="ticker-wrapper">
+    <div class="ticker-label">🔴 ULTIMORA</div>
+    <div class="ticker-overflow">
+      <div class="ticker-track" id="ticker">
+        <span class="ticker-item">BREAKING: Davide Turini acquista moto — non ha la patente, non è assicurata, non lo dice a nessuno</span>
+        <span class="ticker-item">ESCLUSIVA: Turo ha passato 47 ore questa settimana ad assemblare robottini di plastica giapponesi. L'analista finanziario piange.</span>
+        <span class="ticker-item">FONTE ANONIMA: "Turo dice che Debora è solo un'amica". La fonte ride. Non riesce a smettere.</span>
+        <span class="ticker-item">DATO SCIENTIFICO CONFERMATO: La madre di Turo è bellissima — questo non è dibattito, è fisiologia</span>
+        <span class="ticker-item">ALLERTA TCG GUNDAM: terzo booster box della settimana acquistato. Il conto corrente di Turo non era disponibile per commenti</span>
+        <span class="ticker-item">OGGI: Turo compie 28 anni. Mancano due anni alla crisi dei 30. La crisi è iniziata nel 2021.</span>
+        <span class="ticker-item">AGGIORNAMENTO MOTO: Il veicolo è ancora in garage. Perfettamente integro. Praticamente come nuovo. Purtroppo.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN CONTENT ── -->
+  <div class="content">
+
+    <!-- ════ GRID 1: big article + sidebar ════ -->
+    <div class="main-grid" id="main-grid">
+
+      <!-- MAIN ARTICLE: La Moto -->
+      <div class="col-main" id="art-main">
+        <span class="section-label">Scandalo del Giorno · Cronaca Nera</span>
+
+        <h2 class="hl hl-xl">
+          La Moto Fantasma:<br>
+          il veicolo che esiste<br>
+          ma non può muoversi
+        </h2>
+
+        <div class="deck">
+          Un uomo acquista una motocicletta e non lo dice a nessuno. Motivo: non ha la patente e il mezzo non è assicurato. La comunità è sconvolta. Lui spallucce.
+        </div>
+
+        <div class="byline">
+          Di Corrispondente Imbarazzato &nbsp;·&nbsp; Redazione de La Gazzetta del Turo
+        </div>
+
+        <div class="img-box img-main">
+          <span class="big-emoji">🏍️🔒</span>
+          <span class="img-label">La moto di Turo (in cattività permanente)</span>
+        </div>
+        <p class="caption">La motocicletta acquistata da Davide Turini, 28 anni, immortalata nel suo habitat naturale: il garage, dove rimarrà a tempo indeterminato per ragioni legali, assicurative e di buon senso comune.</p>
+
+        <div class="body-text">
+          <p>Ci sono misteri che avvolgono la nostra epoca. La composizione chimica dell'universo. Il motivo per cui continuiamo ad aprire il frigo sperando che sia comparso del cibo. E adesso: il perché Davide «Turo» Turini abbia acquistato una motocicletta senza patente, senza assicurazione, e soprattutto — dettaglio cruciale — senza dirlo assolutamente a nessuno.</p>
+
+          <p>La notizia, emersa attraverso canali non meglio precisati (qualcuno ha parlato, Turo), ha lasciato sgomenta la comunità. «Non riuscivo a credere ai miei occhi,» racconta un testimone che preferisce restare anonimo. «Turo con una moto. Turo. Che non può guidarla. E non ci aveva detto niente. Per settimane.»</p>
+
+          <p>Interrogato sull'accaduto, il soggetto avrebbe risposto con una serie di spallucce progressive, culminate in un vago «sì vabbè» che gli esperti di linguistica classificano come «la risposta di chi sa di aver torto ma non vuole ammetterlo davanti a testimoni».</p>
+        </div>
+
+        <div class="pull-quote">
+          <blockquote>«Ho una moto. Non la posso guidare. Non ve lo dico. Tutto regolare.»</blockquote>
+          <cite>— Davide Turini, parafrasato dalla Redazione sulla base dei comportamenti osservati</cite>
+        </div>
+
+        <div class="body-text">
+          <p>La moto, secondo fonti vicine al garage, versa in perfette condizioni meccaniche — quasi come se non fosse mai stata usata. Perché, di fatto, non è mai stata usata. «È un investimento,» avrebbe dichiarato il proprietario. Un investimento in cosa, precisamente, rimane oggetto di ricerca accademica finanziata da nessuno.</p>
+
+          <p>La Polizia Municipale non è a conoscenza del caso. Il soggetto confida che le cose rimangano così.</p>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="col-side" id="art-side">
+
+        <!-- MAMMA BOX -->
+        <div class="mamma-box" id="mamma-box">
+          <div class="mamma-title">✦ Sua Madre ✦</div>
+          <div class="mamma-text">
+            In una vita altrimenti caratterizzata da moto sequestrabili e robot di plastica da 1/144 di scala, esiste una costante di bellezza assoluta e geopoliticamente incontestabile:
+            <br><br>
+            <strong>La madre di Turo è bellissima.</strong>
+            <br><br>
+            Non è opinione. Non è dibattito. È un fatto che la compagnia intera ha riconosciuto all'unanimità in sessioni plenarie non ufficiali.
+            <br><br>
+            <em>La Redazione porge i suoi più sentiti rispetti.</em>
+          </div>
+        </div>
+
+        <span class="section-label">Psicologia · Profilo Comportamentale</span>
+
+        <h3 class="hl hl-md">«Fa il Figo ma Non lo È»: studio clinico di un caso irrisolto</h3>
+
+        <div class="byline">Di Dott. Scienze dell'Imbarazzo, Università di Bologna</div>
+
+        <div class="img-box img-sm">
+          <span class="big-emoji">😎🚫</span>
+          <span class="img-label">Turo (simulazione artistica)</span>
+        </div>
+        <p class="caption">Ricostruzione del soggetto mentre tenta di sembrare interessante a una festa. Il tentativo è documentato. Il risultato, no.</p>
+
+        <div class="body-text">
+          <p>La letteratura psicologica identifica nel soggetto un pattern ricorrente e ben documentato: la convinzione sincera di essere più interessante, più cool e più misterioso di quanto i dati empirici suggeriscano.</p>
+
+          <p>«Turo crede davvero di essere figo,» spiega la fonte, che preferisce restare anonima. «Il problema è che poi tira fuori le sue carte del TCG Gundam e il castello crolla irreversibilmente.»</p>
+        </div>
+
+        <div class="pull-quote">
+          <blockquote>«28 anni, schiavo di ufficio, appassionato di robottini. Il sogno americano.»</blockquote>
+          <cite>— Dante Alighieri, se avesse vissuto oggi e avesse conosciuto Turo</cite>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ GRID 2: tre colonne ════ -->
+    <div class="three-col" id="three-col">
+
+      <!-- Col 1: Gundam -->
+      <div class="col" id="col-1">
+        <span class="section-label">Psichiatria · Dipendenze</span>
+        <h3 class="hl hl-lg">Il Problema Clinico dei Gunpla: uno Studio di Caso</h3>
+        <div class="deck">Un uomo adulto. Un ufficio. Una stanza piena di robot. Gli esperti sono preoccupati.</div>
+        <div class="byline">Di un Amico Preoccupato</div>
+
+        <div class="img-box img-xs">
+          <span class="big-emoji">🤖📦💸</span>
+          <span class="img-label">La stanza di Turo (parziale)</span>
+        </div>
+        <p class="caption">Vista parziale della collezione. Il fotografo incaricato ha chiesto supporto psicologico dopo il sopralluogo.</p>
+
+        <div class="body-text">
+          <p>Il DSM-V non prevede ancora una categoria specifica per «adulto in giacca e cravatta che passa i weekend ad assemblare robot di plastica in scala 1/144», ma gli psichiatri consultati dalla Redazione sono ottimisti che il caso di Turo possa finalmente aprire la strada.</p>
+
+          <p>La dipendenza — classificabile come <em>Gunpla Disorder Cronico con Complicanza TCG</em> — si manifesta con sintomi precisi: acquisto compulsivo di kit, conversazione sistematicamente deviata verso il Gundam TCG, e totale incapacità di accorgersi che nessuno vuole sentirlo.</p>
+
+          <p>«Ho provato a parlargli,» confessa una fonte. «Mi ha spiegato la differenza tra un MG e un PG per 45 minuti. Non so ancora cosa significhino.»</p>
+        </div>
+      </div>
+
+      <!-- Col 2: Debora -->
+      <div class="col" id="col-2">
+        <span class="section-label">Cronaca Rosa · Esclusiva</span>
+        <h3 class="hl hl-lg">L'Affaire Debora: un Amore Tragicamente Impossibile</h3>
+        <div class="deck">«È solo una battuta», insiste Turo. La battuta dura da anni. La compagnia ride.</div>
+        <div class="byline">Di Chi Sa Tutto e Non Dimentica</div>
+
+        <div class="img-box img-xs">
+          <span class="big-emoji">💘🚧</span>
+          <span class="img-label">Il cuore di Turo (bloccato da semaforo rosso)</span>
+        </div>
+        <p class="caption">Rappresentazione artistica dei sentimenti di Turo. Il divieto di accesso in fondo alla strada rappresenta la fidanzata del suo migliore amico.</p>
+
+        <div class="body-text">
+          <p>C'è una battuta che gira nella compagnia di Turo. La battuta risponde al nome di Debora. La battuta è diventata leggenda. La leggenda è diventata un capitolo fisso in ogni riunione informale del gruppo. E adesso è qui, in questo giornale, consegnata alla storia.</p>
+
+          <p>Quando interrogato sull'argomento, Turo attiva quello che gli esperti definiscono il <em>«protocollo della risata imbarazzata»</em>: un sorriso nervoso, un cambio argomento repentino, e — nei casi più gravi — un commento casuale su un Gunpla acquistato di recente.</p>
+
+          <p>La Redazione augura a Turo di trovare un giorno la sua Debora. Una disponibile, questa volta.</p>
+        </div>
+      </div>
+
+      <!-- Col 3: Ufficio -->
+      <div class="col" id="col-3">
+        <span class="section-label">Economia · Finanza Personale</span>
+        <h3 class="hl hl-lg">L'Ufficio: Otto Ore al Giorno per Finanziare i Gundam</h3>
+        <div class="deck">Analisi del flusso di cassa mensile di Turo e della sua destinazione finale: Bandai Namco.</div>
+        <div class="byline">Di Analista Finanziario Deluso dalla Vita</div>
+
+        <div class="img-box img-xs">
+          <span class="big-emoji">💼💸🤖</span>
+          <span class="img-label">Il ciclo economico di Turo</span>
+        </div>
+        <p class="caption">Flusso di cassa mensile del soggetto. Freccia sinistra: stipendio. Freccia destra: Bandai Namco. Il delta è statisticamente irrilevante.</p>
+
+        <div class="body-text">
+          <p>Ogni mattina, Davide Turini si sveglia, si veste, va in ufficio, lavora otto ore, torna a casa. Una routine normale, se non fosse che l'intero processo è — da un punto di vista strettamente economico — una macchina per generare liquidità da destinare all'acquisto di kit Gunpla e booster del TCG.</p>
+
+          <p>Un'analisi del bilancio stimata dalla nostra Redazione indica che circa il 40% dello stipendio netto finisce in modellismo e carte collezionabili. Il restante 60% è destinato a spese ordinarie, incluso il carburante per la moto che non può usare.</p>
+
+          <p>«È un investimento,» ha dichiarato Turo. Sì. Lo sappiamo già. Ha già detto questa cosa.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ STATS BAR ════ -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat">
+        <span class="stat-n" data-target="28">0</span>
+        <span class="stat-l">anni di vita<br>spesi così</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" data-target="0" data-from="5">5</span>
+        <span class="stat-l">patenti di guida<br>possedute</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" data-target="1">0</span>
+        <span class="stat-l">moto non<br>assicurata</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" data-infinity="true">0</span>
+        <span class="stat-l">euro investiti<br>in Gundam</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n" data-target="1">0</span>
+        <span class="stat-l">amore impossibile<br>documentato</span>
+      </div>
+    </div>
+
+    <!-- ════ BIRTHDAY SECTION ════ -->
+    <div class="birthday-grid" id="birthday-grid">
+      <div class="birthday-text">
+        <span class="section-label">Editoriale · Nota della Redazione</span>
+        <h2 class="hl hl-lg">Buon Compleanno, Turo.</h2>
+        <div class="deck">Una nota di sincero affetto, pubblicata tra le righe di questo giornale scandalista.</div>
+
+        <div class="body-text">
+          <p>Al netto di moto non guidabili, robottini in scala, amori impossibili, patenti inesistenti e della carriera da schiavo d'ufficio che finanzia tutto quanto — esiste un fatto incontrovertibile che questa Redazione tiene a mettere ufficialmente agli atti: Turo è una delle persone più simpatiche, genuine e assurde che si possa avere in giro.</p>
+
+          <p>Che i prossimi 28 anni siano altrettanto ricchi di stranezze degne di pubblicazione. Che la moto trovi finalmente il suo scopo. Che i Gunpla trovino un senso. E che, un giorno, magari, il TCG Gundam raggiunga la popolarità che lui è convinto abbia già.</p>
+
+          <p><em>Con tutto l'affetto del mondo — e con questo giornale come prova scritta e notarile —</em><br>
+          <strong>La Redazione de La Gazzetta del Turo</strong></p>
+        </div>
+
+        <div class="ornament" style="margin-top: 1.2rem;">✦ &nbsp; ✦ &nbsp; ✦</div>
+      </div>
+
+      <div class="birthday-stamp-col">
+        <div class="stamp" id="stamp">
+          <span class="stamp-n">28</span>
+          ANNI
+        </div>
+
+        <div style="text-align:center; margin-top:.5rem;">
+          <div style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; font-style:italic; line-height:1.1; margin-bottom:.5rem;">
+            Buon<br>Compleanno
+          </div>
+          <div style="font-family:'Oswald',sans-serif; font-size:.65rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gray); margin-bottom:1rem;">
+            Davide «Turo» Turini
+          </div>
+          <div style="font-size:1.8rem; letter-spacing:.3rem;">🎂 🏍️ 🤖</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer-name">La Gazzetta del Turo</div>
+    <div class="footer-note">
+      Edizione Speciale 28° Compleanno · 17 Maggio 2026<br>
+      Tutti i fatti sono veri. Le opinioni pure. Il Turo anche.
+    </div>
+  </footer>
+
+</article>
+
+<!-- ── ULTIMORA POPUP ── -->
+<div class="ultimora" id="ultimora">
+  <div class="ultimora-head">🔴 ULTIMORA</div>
+  <div class="ultimora-body" id="ultimora-text"></div>
+</div>
+
+<!-- ══════════════════════════════════════
+     GSAP ANIMATIONS
+══════════════════════════════════════ -->
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ─ TICKER ─ */
+  (function setupTicker() {
+    const track = document.getElementById('ticker');
+    const original = track.innerHTML;
+    track.innerHTML = original + original;
+
+    requestAnimationFrame(() => {
+      const half = track.scrollWidth / 2;
+      gsap.to(track, {
+        x: -half,
+        duration: 55,
+        ease: 'none',
+        repeat: -1,
+      });
+    });
+  })();
+
+  /* ─ MASTHEAD INTRO ─ */
+  const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  intro
+    .from('#masthead', {
+      clipPath: 'inset(0 48% 0 48%)',
+      duration: .9,
+    })
+    .from('.paper-name', { y: -25, opacity: 0, duration: .6 }, '-=.25')
+    .from('.masthead-meta, .masthead-tagline', {
+      opacity: 0, y: 8, stagger: .12, duration: .4,
+    }, '-=.3')
+    .from('.ticker-wrapper', { opacity: 0, duration: .3 }, '-=.1');
+
+  /* ─ MAIN GRID REVEAL ─ */
+  gsap.from('#art-main', {
+    scrollTrigger: { trigger: '#main-grid', start: 'top 82%' },
+    x: -35, opacity: 0, duration: .75, ease: 'power2.out',
+  });
+  gsap.from('#art-side > *', {
+    scrollTrigger: { trigger: '#main-grid', start: 'top 82%' },
+    x: 35, opacity: 0, stagger: .13, duration: .7, ease: 'power2.out',
+  });
+
+  /* ─ THREE COLUMNS REVEAL ─ */
+  ['#col-1', '#col-2', '#col-3'].forEach((sel, i) => {
+    gsap.from(sel, {
+      scrollTrigger: { trigger: '#three-col', start: 'top 84%' },
+      y: 45, opacity: 0,
+      duration: .65, ease: 'power2.out',
+      delay: i * .15,
+    });
+  });
+
+  /* ─ STATS COUNTER ─ */
+  ScrollTrigger.create({
+    trigger: '#stats-bar',
+    start: 'top 82%',
+    once: true,
+    onEnter() {
+      document.querySelectorAll('.stat-n').forEach(el => {
+        if (el.dataset.infinity) {
+          gsap.to(el, {
+            duration: .6, delay: .8,
+            onComplete: () => { el.textContent = '∞'; },
+          });
+          return;
+        }
+
+        const to   = parseInt(el.dataset.target ?? '0', 10);
+        const from = parseInt(el.dataset.from   ?? '0', 10);
+        const obj  = { val: from };
+
+        gsap.to(obj, {
+          val: to,
+          duration: 1.6,
+          ease: to > from ? 'power2.out' : 'power2.in',
+          onUpdate() { el.textContent = Math.round(obj.val); },
+        });
+      });
+    },
+  });
+
+  /* ─ BIRTHDAY SECTION ─ */
+  gsap.from('.birthday-text', {
+    scrollTrigger: { trigger: '#birthday-grid', start: 'top 82%' },
+    x: -30, opacity: 0, duration: .7, ease: 'power2.out',
+  });
+
+  /* ─ STAMP ─ */
+  ScrollTrigger.create({
+    trigger: '#birthday-grid',
+    start: 'top 75%',
+    once: true,
+    onEnter() {
+      gsap.fromTo('#stamp',
+        { opacity: 0, scale: 2.5, rotation: 20 },
+        { opacity: 1, scale: 1, rotation: -14, duration: .45, ease: 'back.out(2)', delay: .3 }
+      );
+    },
+  });
+
+  /* ─ MAMMA BOX PULSE ─ */
+  gsap.from('#mamma-box', {
+    scrollTrigger: { trigger: '#mamma-box', start: 'top 88%' },
+    scale: .94, opacity: 0, duration: .5, ease: 'back.out(1.8)',
+  });
+
+  /* ─ ULTIMORA POPUP ─ */
+  const ultimoras = [
+    'Turo ha comprato un altro Gunpla stamattina. Era già il terzo della settimana. Il conto piange.',
+    'CONFERMATO: La moto è ancora in garage. Esattamente dove non dovrebbe essere.',
+    'Fonti interne alla compagnia: "Turo ha detto che Debora è solo un\'amica". Nessuno ci crede.',
+    'AGGIORNAMENTO: Turo compie 28 anni. Due anni alla crisi dei 30. La crisi è già avanzata.',
+    'ESCLUSIVA: La madre di Turo è bellissima. La notizia è confermata. Non ci sono aggiornamenti.',
+    'Turo ha spiegato le regole del TCG Gundam per 20 minuti. Nessuno ha capito niente. Lui ha continuato.',
+    'BREAKING: Turo ha detto "non mi frega niente dei Gundam" mentre era circondato da 40 Gunpla.',
+  ];
+
+  let ultimoraIdx = 0;
+  const popup = document.getElementById('ultimora');
+  const popupText = document.getElementById('ultimora-text');
+
+  function showUltimora() {
+    popupText.textContent = ultimoras[ultimoraIdx % ultimoras.length];
+    ultimoraIdx++;
+
+    gsap.timeline()
+      .to(popup, { x: 0, duration: .45, ease: 'back.out(1.5)' })
+      .to(popup, { x: '120%', duration: .4, ease: 'power2.in', delay: 4.5 })
+      .call(() => { setTimeout(showUltimora, 6000); });
+  }
+
+  setTimeout(showUltimora, 3500);
+</script>
+
+</body>
+</html>
